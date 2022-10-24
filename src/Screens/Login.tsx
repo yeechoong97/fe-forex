@@ -1,6 +1,45 @@
-import React from 'react'
+import React, { ChangeEvent, ChangeEventHandler, FormEvent, FormEventHandler, FunctionComponent, useState } from 'react'
+import { Link } from 'react-router-dom'
+import TextBox from '../Components/TextBox'
+import { AccountCredentials, ErrorMessageType } from '../interfaces'
+
+const ErrorMessage: FunctionComponent<ErrorMessageType> = ({ content }) => (
+    <div className="justify-center flex">
+        <div className='w-1/2 mt-1 px-3 py-2 bg-red-100 border shadow-sm border-red-300 placeholder-red-400 text-red-400 text-xs block rounded-md sm:text-xs focus:ring-1'>
+            {content}
+        </div>
+    </div>
+)
+
+const InitialAccount: AccountCredentials = {
+    username: "",
+    password: "",
+}
 
 export const Login = () => {
+
+    const [error, setError] = useState(false);
+    const [account, setAccount] = useState<AccountCredentials>(InitialAccount);
+
+    const setAction = (event: ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = event.target;
+        const existingAccount = account;
+        existingAccount[name] = value;
+        setAccount(existingAccount);
+    }
+
+    const submitLogin = () => {
+        // Temporary
+        if (account.password === "" || account.username === "") {
+            setError(true);
+            return;
+        }
+
+        setError(false);
+        //Todo API Call to backend for authentication
+
+    }
+
     return (
         <div className='w-screen h-screen bg-slate-200 items-center justify-center flex'>
             <div className='flex-col w-1/2 bg-white space-y-4 h-3/5 rounded-md justify-around'>
@@ -10,22 +49,19 @@ export const Login = () => {
                     </div>
                 </div>
                 <hr />
-                <div className="justify-center flex">
-                    <div className='w-1/2 mt-1 px-3 py-2 bg-red-100 border shadow-sm border-red-300 placeholder-red-400 text-red-400 text-xs block rounded-md sm:text-xs focus:ring-1'>
-                        Invalid Username / Password
-                    </div>
-                </div>
+                {
+                    error ?
+                        (<ErrorMessage content='Invalid username / password' />) :
+                        (
+                            <div className="h-8"></div>
+                        )
+                }
+                <TextBox title={"username"} placeholder={"Username"} type={"text"} setAction={setAction} />
+                <TextBox title={"password"} placeholder={"Password"} type={"password"} setAction={setAction} />
+
                 <div className="flex flex-col justify-center items-center">
-                    <span className='text-slate-500 text-sm w-1/2'>Username</span>
-                    <input id="username" className="w-1/2 mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block rounded-md sm:text-sm focus:ring-1" type="text" name="username" placeholder="Username" required autoFocus />
-                </div>
-                <div className="flex flex-col justify-center items-center">
-                    <span className='text-slate-500 text-sm w-1/2'>Password</span>
-                    <input id="password" className="w-1/2 mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1" type="password" name="password" placeholder="Password" required />
-                </div>
-                <div className="flex flex-col justify-center items-center">
-                    <button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" type="submit">Login</button>
-                    <span className='text-slate-400 text-sm my-3 sm:text-xs'>New to ES Forex? <a href="#" className='text-blue-500'>Register</a></span>
+                    <button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={submitLogin}>Login</button>
+                    <span className='text-slate-400 text-sm my-3 sm:text-xs'>New to ES Forex? <Link to={"/register"} className='text-blue-500'>Register</Link></span>
                 </div>
             </div>
         </div>
