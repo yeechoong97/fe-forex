@@ -1,15 +1,8 @@
 import React, { ChangeEvent, ChangeEventHandler, FormEvent, FormEventHandler, FunctionComponent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ErrorMessage from '../Components/ErrorMessage';
 import TextBox from '../Components/TextBox'
-import { AccountCredentials, ErrorMessageType } from '../interfaces'
-
-const ErrorMessage: FunctionComponent<ErrorMessageType> = ({ content }) => (
-    <div className="justify-center flex">
-        <div className='w-1/2 mt-1 px-3 py-2 bg-red-100 border shadow-sm border-red-300 placeholder-red-400 text-red-400 text-xs block rounded-md sm:text-xs focus:ring-1'>
-            {content}
-        </div>
-    </div>
-)
+import { AccountCredentials } from '../interfaces';
 
 const InitialAccount: AccountCredentials = {
     username: "",

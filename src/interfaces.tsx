@@ -1,8 +1,11 @@
-interface TextBoxType {
+interface OnChangeHandler {
+    setAction: React.ChangeEventHandler<HTMLInputElement>
+}
+
+interface TextBoxType extends OnChangeHandler {
     title: string,
     placeholder: string,
     type: string,
-    setAction: React.ChangeEventHandler<HTMLInputElement>
 }
 
 interface ErrorMessageType {
@@ -15,5 +18,12 @@ interface AccountCredentials extends Record<string, string> {
     password: string,
 }
 
+interface UserDetails extends AccountCredentials {
+    name: string,
+    email: string,
+    phone: string,
+    confirm_password: string,
+}
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials }
+
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler }
