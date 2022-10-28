@@ -1,29 +1,22 @@
 import { CircularProgress, Step, StepConnector, stepConnectorClasses, StepIconProps, StepLabel, Stepper, styled } from '@mui/material'
-import React, { ChangeEvent, ChangeEventHandler, FunctionComponent, useState } from 'react'
+import React, { ChangeEvent, FunctionComponent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ErrorMessage from '../Components/ErrorMessage'
 import TextBox from '../Components/TextBox'
-import { OnChangeHandler, UserDetails } from '../interfaces'
+import { OnChangeHandler, UserDetails, RegisterDetails } from '../interfaces'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { ERROR_MESSAGE, InitialAccountRegister, RegistrationSteps } from '../data'
 
-const InitialAccount: UserDetails = {
-    username: "",
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-}
 
 interface LoadingType {
     load: boolean
 }
 
-const PersonalSection: FunctionComponent<OnChangeHandler> = ({ setAction }) => (
+const PersonalSection: FunctionComponent<RegisterDetails> = ({ setAction, parent }) => (
     <>
-        <TextBox title={"name"} placeholder={"Name"} type={"text"} setAction={setAction} />
-        <TextBox title={"email"} placeholder={"Email"} type={"text"} setAction={setAction} />
-        <TextBox title={"phone"} placeholder={"Phone"} type={"text"} setAction={setAction} />
+        <TextBox title={"name"} placeholder={"Name"} type={"text"} setAction={setAction} value={parent.name} />
+        <TextBox title={"email"} placeholder={"Email"} type={"text"} setAction={setAction} value={parent.email} />
+        <TextBox title={"phone"} placeholder={"Phone"} type={"text"} setAction={setAction} value={parent.phone} />
     </>
 )
 
@@ -112,21 +105,41 @@ const QontoStepIcon = (props: StepIconProps) => {
     );
 }
 
-
-const RegistrationSteps: string[] = ["Personal", "Credentials", "Success"];
-
 const Register = () => {
 
-    const [accountDetails, setAccountDetails] = useState<UserDetails>(InitialAccount);
+    const [accountDetails, setAccountDetails] = useState<UserDetails>(InitialAccountRegister);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [currentStep, setCurrentStep] = useState(0);
     const [loading, setLoading] = useState(true);
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const phoneRegex = /^[0-9]+$/;
 
     const setAction = (event: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = event.target;
-        const existingAccount = accountDetails;
-        accountDetails[name] = value;
+        const existingAccount = { ...accountDetails };
+        existingAccount[name] = value;
         setAccountDetails(existingAccount);
+    }
+
+    const handlePage = (type: string) => {
+        console.log(type);
+        if (type === "Back") {
+            setCurrentStep(currentStep - 1);
+        } else {
+            setError(true);
+            if (accountDetails.name === "" || accountDetails.email === "" || accountDetails.phone === "") {
+                setErrorMessage(ERROR_MESSAGE.INCOMPLETE_FIELD);
+            } else if (!accountDetails.email.match(emailRegex)) {
+                setErrorMessage(ERROR_MESSAGE.INVALID_EMAIL);
+            } else if (!accountDetails.phone.match(phoneRegex)) {
+                setErrorMessage(ERROR_MESSAGE.INVALID_PHONE);
+            }
+            else {
+                setError(false);
+                setCurrentStep(currentStep + 1);
+            }
+        }
     }
 
     const submitForm = () => {
@@ -155,12 +168,10 @@ const Register = () => {
                     ))}
                 </Stepper>
                 {
-                    error && (<ErrorMessage content='Invalid username / password' />)
+                    error && (<ErrorMessage content={errorMessage} />)
                 }
-
-
                 {
-                    currentStep === 0 ? (<PersonalSection setAction={setAction} />) :
+                    currentStep === 0 ? (<PersonalSection setAction={setAction} parent={accountDetails} />) :
                         currentStep === 1 ? (<CredentialsSection setAction={setAction} />) :
                             (<ProcessSection load={loading} />)
                 }
@@ -170,10 +181,10 @@ const Register = () => {
 
                 <div className="flex flex-col justify-center items-center pb-10">
                     {
-                        currentStep < 1 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={() => setCurrentStep(currentStep + 1)}>Next</button>) :
+                        currentStep < 1 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={() => handlePage("Next")}>Next</button>) :
                             currentStep < 2 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={submitForm}>Submit</button>) : <></>
                     }
-                    {currentStep === 1 && (<button className="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-slate-500 w-1/2 mt-3" onClick={() => setCurrentStep(currentStep - 1)}>Back</button>
+                    {currentStep === 1 && (<button className="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-slate-500 w-1/2 mt-3" onClick={() => handlePage("Back")}>Back</button>
                     )}
                     {
                         currentStep < 2 && (<span className='text-slate-400 text-sm my-3 sm:text-xs'>Have account? <Link to={"/login"} className='text-blue-500'>Login Here</Link></span>

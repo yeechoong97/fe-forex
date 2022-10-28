@@ -2,17 +2,13 @@ import React, { ChangeEvent, ChangeEventHandler, FormEvent, FormEventHandler, Fu
 import { Link } from 'react-router-dom'
 import ErrorMessage from '../Components/ErrorMessage';
 import TextBox from '../Components/TextBox'
+import { ERROR_MESSAGE, InitialAccountLogin } from '../data';
 import { AccountCredentials } from '../interfaces';
-
-const InitialAccount: AccountCredentials = {
-    username: "",
-    password: "",
-}
 
 export const Login = () => {
 
     const [error, setError] = useState(false);
-    const [account, setAccount] = useState<AccountCredentials>(InitialAccount);
+    const [account, setAccount] = useState<AccountCredentials>(InitialAccountLogin);
 
     const setAction = (event: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = event.target;
@@ -44,7 +40,7 @@ export const Login = () => {
                 <hr />
                 {
                     error ?
-                        (<ErrorMessage content='Invalid username / password' />) :
+                        (<ErrorMessage content={ERROR_MESSAGE.INVALID_ACCOUNT} />) :
                         (
                             <div className="h-8"></div>
                         )

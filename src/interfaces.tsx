@@ -6,6 +6,7 @@ interface TextBoxType extends OnChangeHandler {
     title: string,
     placeholder: string,
     type: string,
+    value?: string,
 }
 
 interface ErrorMessageType {
@@ -25,5 +26,9 @@ interface UserDetails extends AccountCredentials {
     confirm_password: string,
 }
 
+interface RegisterDetails extends OnChangeHandler {
+    parent: AccountCredentials & UserDetails
+}
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler }
+
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails }
