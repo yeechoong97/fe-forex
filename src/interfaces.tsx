@@ -7,6 +7,7 @@ interface TextBoxType extends OnChangeHandler {
     placeholder: string,
     type: string,
     value?: string,
+    autoFocus?: boolean
 }
 
 interface ErrorMessageType {

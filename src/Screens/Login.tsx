@@ -45,7 +45,7 @@ export const Login = () => {
                             <div className="h-8"></div>
                         )
                 }
-                <TextBox title={"username"} placeholder={"Username"} type={"text"} setAction={setAction} />
+                <TextBox title={"username"} placeholder={"Username"} type={"text"} setAction={setAction} autoFocus />
                 <TextBox title={"password"} placeholder={"Password"} type={"password"} setAction={setAction} />
 
                 <div className="flex flex-col justify-center items-center">

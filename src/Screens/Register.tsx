@@ -1,20 +1,21 @@
 import { CircularProgress, Step, StepConnector, stepConnectorClasses, StepIconProps, StepLabel, Stepper, styled } from '@mui/material'
-import React, { ChangeEvent, FunctionComponent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import ErrorMessage from '../Components/ErrorMessage'
 import TextBox from '../Components/TextBox'
 import { OnChangeHandler, UserDetails, RegisterDetails } from '../interfaces'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { ERROR_MESSAGE, InitialAccountRegister, RegistrationSteps } from '../data'
+import { emailRegex, ERROR_MESSAGE, InitialAccountRegister, phoneRegex, RegistrationSteps } from '../data'
 
 
 interface LoadingType {
-    load: boolean
+    load: boolean,
+    timer: number
 }
 
 const PersonalSection: FunctionComponent<RegisterDetails> = ({ setAction, parent }) => (
     <>
-        <TextBox title={"name"} placeholder={"Name"} type={"text"} setAction={setAction} value={parent.name} />
+        <TextBox title={"name"} placeholder={"Name"} type={"text"} setAction={setAction} value={parent.name} autoFocus />
         <TextBox title={"email"} placeholder={"Email"} type={"text"} setAction={setAction} value={parent.email} />
         <TextBox title={"phone"} placeholder={"Phone"} type={"text"} setAction={setAction} value={parent.phone} />
     </>
@@ -22,13 +23,13 @@ const PersonalSection: FunctionComponent<RegisterDetails> = ({ setAction, parent
 
 const CredentialsSection: FunctionComponent<OnChangeHandler> = ({ setAction }) => (
     <>
-        <TextBox title={"username"} placeholder={"Username"} type={"text"} setAction={setAction} />
+        <TextBox title={"username"} placeholder={"Username"} type={"text"} setAction={setAction} autoFocus />
         <TextBox title={"password"} placeholder={"Password"} type={"password"} setAction={setAction} />
         <TextBox title={"confirmpassword"} placeholder={"Confirm Password"} type={"password"} setAction={setAction} />
     </>
 )
 
-const ProcessSection: FunctionComponent<LoadingType> = ({ load }) => {
+const ProcessSection: FunctionComponent<LoadingType> = ({ load, timer }) => {
 
     return (
         <div className='flex justify-center flex-col items-center py-3'>
@@ -39,7 +40,7 @@ const ProcessSection: FunctionComponent<LoadingType> = ({ load }) => {
                 </>) :
                     (<>
                         <CheckCircleIcon className="text-green-500 text-2xl" fontSize='large' />
-                        <span className='my-3 text-slate-500 text-sm'>Registration Success</span>
+                        <span className='my-3 text-slate-500 text-sm'>Registration Success. You will be redirected to Login in {timer} seconds.</span>
                     </>)
             }
         </div >)
@@ -112,8 +113,8 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [currentStep, setCurrentStep] = useState(0);
     const [loading, setLoading] = useState(true);
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const phoneRegex = /^[0-9]+$/;
+    const [timer, setTimer] = useState<number>(3);
+    const navigate = useNavigate();
 
     const setAction = (event: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = event.target;
@@ -123,7 +124,6 @@ const Register = () => {
     }
 
     const handlePage = (type: string) => {
-        console.log(type);
         if (type === "Back") {
             setCurrentStep(currentStep - 1);
         } else {
@@ -135,6 +135,9 @@ const Register = () => {
             } else if (!accountDetails.phone.match(phoneRegex)) {
                 setErrorMessage(ERROR_MESSAGE.INVALID_PHONE);
             }
+            else if (accountDetails.password != accountDetails.confirm_password) {
+                setErrorMessage(ERROR_MESSAGE.INVALID_PASSWORD);
+            }
             else {
                 setError(false);
                 setCurrentStep(currentStep + 1);
@@ -142,11 +145,25 @@ const Register = () => {
         }
     }
 
+    const setCountDown = () => {
+        let tempTimer = timer;
+        const countDownFunc = setInterval(() => {
+            if (tempTimer != 0) {
+                setTimer(timer => timer - 1);
+                tempTimer -= 1;
+            } else if (tempTimer === 0) {
+                clearInterval(countDownFunc);
+                navigate("/login");
+            }
+        }, 1000);
+    }
+
     const submitForm = () => {
         setCurrentStep(currentStep + 1);
         setTimeout(() => {
             setLoading(!loading);
             setCurrentStep(currentStep + 2);
+            setCountDown();
         }, 2000);
         //Todo Redirect back to Login after done register ( in few seconds);
     }
@@ -173,7 +190,7 @@ const Register = () => {
                 {
                     currentStep === 0 ? (<PersonalSection setAction={setAction} parent={accountDetails} />) :
                         currentStep === 1 ? (<CredentialsSection setAction={setAction} />) :
-                            (<ProcessSection load={loading} />)
+                            (<ProcessSection load={loading} timer={timer} />)
                 }
 
                 {/* Submit Action - Progress Loading Animation -   */}
