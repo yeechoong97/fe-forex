@@ -169,45 +169,43 @@ const Register = () => {
     }
 
     return (
-        <div className='w-screen h-screen bg-slate-200 items-center justify-center flex'>
-            <div className='flex-col w-1/2 bg-white space-y-4 h-auto rounded-md justify-around '>
-                <div className='flex justify-center my-3'>
-                    <div className="text-sky-700  mx-2 md:text-xl sm:text-base ">Account Registration
-                        <span className="fas fa-file-user text-sky-700 mx-2"></span>
-                    </div>
+        <div className='flex-col w-1/2 bg-white space-y-4 h-auto rounded-md justify-around '>
+            <div className='flex justify-center my-3'>
+                <div className="text-sky-700  mx-2 md:text-xl sm:text-base ">Account Registration
+                    <span className="fas fa-file-user text-sky-700 mx-2"></span>
                 </div>
-                <hr />
-                <Stepper activeStep={currentStep} alternativeLabel className='py-3' connector={<QontoConnector />} >
-                    {RegistrationSteps.map((label: string) => (
-                        <Step key={label}>
-                            <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
+            </div>
+            <hr />
+            <Stepper activeStep={currentStep} alternativeLabel className='py-3' connector={<QontoConnector />} >
+                {RegistrationSteps.map((label: string) => (
+                    <Step key={label}>
+                        <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
+                    </Step>
+                ))}
+            </Stepper>
+            {
+                error && (<ErrorMessage content={errorMessage} />)
+            }
+            {
+                currentStep === 0 ? (<PersonalSection setAction={setAction} parent={accountDetails} />) :
+                    currentStep === 1 ? (<CredentialsSection setAction={setAction} />) :
+                        (<ProcessSection load={loading} timer={timer} />)
+            }
+
+            {/* Submit Action - Progress Loading Animation -   */}
+
+
+            <div className="flex flex-col justify-center items-center pb-10">
                 {
-                    error && (<ErrorMessage content={errorMessage} />)
+                    currentStep < 1 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={() => handlePage("Next")}>Next</button>) :
+                        currentStep < 2 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={submitForm}>Submit</button>) : <></>
                 }
+                {currentStep === 1 && (<button className="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-slate-500 w-1/2 mt-3" onClick={() => handlePage("Back")}>Back</button>
+                )}
                 {
-                    currentStep === 0 ? (<PersonalSection setAction={setAction} parent={accountDetails} />) :
-                        currentStep === 1 ? (<CredentialsSection setAction={setAction} />) :
-                            (<ProcessSection load={loading} timer={timer} />)
+                    currentStep < 2 && (<span className='text-slate-400 text-sm my-3 sm:text-xs'>Have account? <Link to={"/login"} className='text-blue-500'>Login Here</Link></span>
+                    )
                 }
-
-                {/* Submit Action - Progress Loading Animation -   */}
-
-
-                <div className="flex flex-col justify-center items-center pb-10">
-                    {
-                        currentStep < 1 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={() => handlePage("Next")}>Next</button>) :
-                            currentStep < 2 ? (<button className="bg-sky-500 hover:bg-sky-700 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-white w-1/2 mt-6" onClick={submitForm}>Submit</button>) : <></>
-                    }
-                    {currentStep === 1 && (<button className="bg-slate-100 hover:bg-slate-200 px-5 py-2.5 text-sm leading-5 rounded-md font-semibold text-slate-500 w-1/2 mt-3" onClick={() => handlePage("Back")}>Back</button>
-                    )}
-                    {
-                        currentStep < 2 && (<span className='text-slate-400 text-sm my-3 sm:text-xs'>Have account? <Link to={"/login"} className='text-blue-500'>Login Here</Link></span>
-                        )
-                    }
-                </div>
             </div>
         </div>
     )
