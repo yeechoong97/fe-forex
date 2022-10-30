@@ -1,3 +1,5 @@
+import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { MouseEventHandler } from 'react';
 interface OnChangeHandler {
     setAction: React.ChangeEventHandler<HTMLInputElement>
 }
@@ -31,5 +33,10 @@ interface RegisterDetails extends OnChangeHandler {
     parent: AccountCredentials & UserDetails
 }
 
+interface NavBarProps extends MuiAppBarProps {
+    setAction: MouseEventHandler<HTMLAnchorElement>,
+    open?: boolean;
+}
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails }
+
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps }

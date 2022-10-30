@@ -18,6 +18,8 @@ const InitialAccountLogin: AccountCredentials = {
     password: "",
 }
 
+const NavigationNames = ["Account", "Tutorial", "Calculator", "Forum", "Chat"]
+
 const ERROR_MESSAGE = {
     "INCOMPLETE_FIELD": "Please input all the fields",
     "INVALID_EMAIL": "Please enter valid email address",
@@ -26,4 +28,4 @@ const ERROR_MESSAGE = {
     "INVALID_PASSWORD": "Password and Confirm password are different"
 }
 
-export { InitialAccountRegister, InitialAccountLogin, RegistrationSteps, ERROR_MESSAGE, emailRegex, phoneRegex }
+export { InitialAccountRegister, InitialAccountLogin, RegistrationSteps, ERROR_MESSAGE, emailRegex, phoneRegex, NavigationNames }
