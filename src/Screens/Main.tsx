@@ -1,4 +1,5 @@
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import Tooltip from '@mui/material/Tooltip/Tooltip';
 import React from 'react'
 import MiniDrawer from '../Components/MiniDrawer';
 import "../styles/style.css";
@@ -51,32 +52,33 @@ const AccountContainer = () => {
                 <div className="text-green-500 w-7 rounded-full px-2 text-sm py-1">
                     <i className="fa-solid fa-wallet"></i>
                 </div>
-                <span className='text-slate-700 text-base border-l px-3'>5433.22</span>
+                <span className='text-slate-700 text-base border-l px-3 '>5433.22</span>
             </div>
             <div className='flex space-x-3 px-4'>
                 <div className='flex flex-col justify-center space-y-2'>
-                    <div className="flex w-16 justify-center mt-5 relative space-x-2">
+                    <div className="flex w-16 justify-center mt-5 relative">
                         <CircularProgress variant="determinate" value={100} size={65} />
-                        <span className='absolute text-slate-700 text-base top-5 left-2'>1:20</span>
+                        <span className='absolute text-slate-700 text-sm flex items-center justify-center top-0 left-0 right-0 bottom-0'>1:20</span>
                     </div>
                     <span className='text-slate-600 text-sm w-16'>Leverage</span>
                 </div>
                 <div className='flex flex-col justify-center space-y-2'>
-                    <div className="flex w-16 justify-center mt-5 relative space-x-2">
+                    <div className="inline-flex w-16 justify-center mt-5 relative">
                         <CircularProgress variant="determinate" value={80} size={65} color="success" />
-                        <span className='absolute text-slate-700 text-base top-5 left-2'>1:20</span>
+                        <span className='absolute text-slate-700 text-xs flex items-center justify-center top-0 left-0 right-0 bottom-0'>13111.20</span>
                     </div>
                     <span className='text-slate-600 text-sm w-16 text-center'>Margin</span>
                 </div>
                 <div className='flex flex-col justify-center space-y-2'>
-                    <div className="flex w-16 justify-center mt-9 relative space-x-2">
-                        <CircularProgress variant="determinate" value={55} size={65} color="secondary" />
-                        <span className='absolute text-slate-700 text-base top-5 left-2'>1:20</span>
+                    <div className="flex w-16 justify-center mt-5 relative">
+                        <CircularProgress variant="determinate" value={55} size={65} color="warning" />
+                        <Tooltip title="Margin Used" placement='bottom' arrow>
+                            <span className='absolute text-slate-700 text-xs flex items-center justify-center top-0 left-0 right-0 bottom-0'>13111.20</span>
+                        </Tooltip>
                     </div>
-                    <span className='text-slate-600 text-xs w-16 text-center'>Margin Used</span>
+                    <span className='text-slate-600 text-sm w-16 text-center truncate'>Margin Used</span>
                 </div>
             </div>
-            {/* Leverage, Margin, Margin Used, Balance, */}
         </div>
     )
 }
