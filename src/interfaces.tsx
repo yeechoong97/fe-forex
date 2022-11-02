@@ -38,5 +38,11 @@ interface NavBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
+interface PriceProps {
+    instrument: string,
+    buy: number,
+    sell: number,
+    pips: number
+}
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps }
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps }

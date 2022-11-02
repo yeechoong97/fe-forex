@@ -1,4 +1,4 @@
-import { AccountCredentials, UserDetails } from "./interfaces"
+import { AccountCredentials, PriceProps, UserDetails } from "./interfaces"
 
 const RegistrationSteps: string[] = ["Personal", "Credentials", "Success"];
 const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -28,4 +28,38 @@ const ERROR_MESSAGE = {
     "INVALID_PASSWORD": "Password and Confirm password are different"
 }
 
-export { InitialAccountRegister, InitialAccountLogin, RegistrationSteps, ERROR_MESSAGE, emailRegex, phoneRegex, NavigationNames }
+const DUMMY_DATA: PriceProps[] = [
+    {
+        instrument: "EUR/USD",
+        sell: 1233.33,
+        buy: 1234.55,
+        pips: 0.11
+    },
+    {
+        instrument: "AUD/USD",
+        sell: 1233.33,
+        buy: 1234.55,
+        pips: 0.11
+    },
+    {
+        instrument: "USD/JPY",
+        sell: 1233.33,
+        buy: 1234.55,
+        pips: 0.11
+    },
+    {
+        instrument: "GBP/USD",
+        sell: 1233.33,
+        buy: 1234.55,
+        pips: 0.11
+    },
+    {
+        instrument: "EUR/JPY",
+        sell: 1233.33,
+        buy: 1234.55,
+        pips: 0.11
+    }
+
+]
+
+export { InitialAccountRegister, InitialAccountLogin, RegistrationSteps, ERROR_MESSAGE, emailRegex, phoneRegex, NavigationNames, DUMMY_DATA }
