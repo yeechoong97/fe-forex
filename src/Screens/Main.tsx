@@ -1,8 +1,9 @@
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
-import React from 'react'
 import MiniDrawer from '../Components/MiniDrawer';
 import "../styles/style.css";
+import TradingViewWidget from 'react-tradingview-widget';
+import { Divider } from '@mui/material';
 
 const LeftMain = () => (
     <div className='flex flex-col h-screen w-1/5 px-2 py-3 space-y-3'>
@@ -85,11 +86,26 @@ const AccountContainer = () => {
 
 const RightMain = () => (
     <div className='flex flex-col h-screen w-4/5 px-2 py-3 space-y-3'>
-        <div className='flex-col w-full bg-white space-y-4 h-3/5 rounded-md justify-around'>
-            Price
+        <div className='w-full h-3/5'>
+            <TradingViewWidget symbol="EUR/USD" autosize />
         </div>
-        <div className='flex-col w-full bg-white space-y-4 h-2/5 rounded-md justify-around'>
-            Table
+        <div className='flex w-full bg-white space-y-4 h-2/5 rounded-md'>
+            <div className='w-1/6 bg-slate-50 flex flex-col justify-center px-4 py-4 space-y-3 border-r'>
+                <div className='flex-col flex'>
+                    <span className='text-blue-400 text-sm text-center'>Buy with </span>
+                    <input type="button" className='bg-blue-400 text-white text-xl py-2 rounded-full mt-1' value="1711.11" />
+                </div>
+                <Divider />
+                <div className='flex-col flex'>
+                    <span className='text-red-400 text-sm text-center'>Sell with </span>
+                    <input type="button" className='bg-red-400 text-white text-xl py-2 rounded-full mt-1' value="1711.11" />
+                </div>
+                <Divider />
+                <div className='flex-col flex'>
+                    <span className='text-slate-400 text-sm text-center'>Pips value </span>
+                    <input type="button" className='bg-slate-400 text-white text-xl py-2 rounded-full mt-1' value="1711.11" />
+                </div>
+            </div>
         </div>
     </div>
 )
