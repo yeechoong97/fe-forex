@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { PriceProps } from '../interfaces'
 
-const PriceContainer: FunctionComponent<PriceProps> = (currency) => {
+const PriceContainer: FunctionComponent<PriceProps> = (currency, { currentInstrument, setInstrument }) => {
+    console.log(currentInstrument);
     return (
         <div className='flex flex-col h-1/5 bg-slate-100 rounded-sm w-full shadow border border-stone-300'>
             <div className='w-full h-1/3 justify-center flex space-x-3 py-1'>

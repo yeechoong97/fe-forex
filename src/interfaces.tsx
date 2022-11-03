@@ -1,5 +1,5 @@
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import { MouseEventHandler } from 'react';
+import { ChangeEventHandler, MouseEventHandler } from 'react';
 interface OnChangeHandler {
     setAction: React.ChangeEventHandler<HTMLInputElement>
 }
@@ -45,4 +45,14 @@ interface PriceProps {
     pips: number
 }
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps }
+interface LoadingType {
+    load: boolean,
+    timer: number
+}
+
+interface InstrumentProps {
+    currentInstrument?: string,
+    setInstrument?: ChangeEventHandler<HTMLDivElement>,
+}
+
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps, LoadingType, InstrumentProps }

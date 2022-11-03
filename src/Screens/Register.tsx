@@ -1,17 +1,12 @@
 import { CircularProgress, Step, StepConnector, stepConnectorClasses, StepIconProps, StepLabel, Stepper, styled } from '@mui/material'
-import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react'
+import { ChangeEvent, FunctionComponent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ErrorMessage from '../Components/ErrorMessage'
 import TextBox from '../Components/TextBox'
-import { OnChangeHandler, UserDetails, RegisterDetails } from '../interfaces'
+import { OnChangeHandler, UserDetails, RegisterDetails, LoadingType } from '../interfaces'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { emailRegex, ERROR_MESSAGE, InitialAccountRegister, phoneRegex, RegistrationSteps } from '../data'
 
-
-interface LoadingType {
-    load: boolean,
-    timer: number
-}
 
 const PersonalSection: FunctionComponent<RegisterDetails> = ({ setAction, parent }) => (
     <>
@@ -135,7 +130,7 @@ const Register = () => {
             } else if (!accountDetails.phone.match(phoneRegex)) {
                 setErrorMessage(ERROR_MESSAGE.INVALID_PHONE);
             }
-            else if (accountDetails.password != accountDetails.confirm_password) {
+            else if (accountDetails.password !== accountDetails.confirm_password) {
                 setErrorMessage(ERROR_MESSAGE.INVALID_PASSWORD);
             }
             else {
@@ -148,7 +143,7 @@ const Register = () => {
     const setCountDown = () => {
         let tempTimer = timer;
         const countDownFunc = setInterval(() => {
-            if (tempTimer != 0) {
+            if (tempTimer !== 0) {
                 setTimer(timer => timer - 1);
                 tempTimer -= 1;
             } else if (tempTimer === 0) {
