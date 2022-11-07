@@ -1,7 +1,11 @@
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { ChangeEventHandler, MouseEventHandler } from 'react';
 interface OnChangeHandler {
-    setAction: React.ChangeEventHandler<HTMLInputElement>
+    setAction: ChangeEventHandler<HTMLInputElement>
+}
+
+interface OnClickHandler {
+    setAction: MouseEventHandler<HTMLInputElement>
 }
 
 interface TextBoxType extends OnChangeHandler {
@@ -50,9 +54,8 @@ interface LoadingType {
     timer: number
 }
 
-interface InstrumentProps {
-    currentInstrument?: string,
-    setInstrument?: ChangeEventHandler<HTMLDivElement>,
+interface ModalProps extends OnClickHandler {
+    modalStatus: boolean
 }
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps, LoadingType, InstrumentProps }
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps, LoadingType, ModalProps, OnClickHandler }
