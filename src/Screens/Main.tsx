@@ -9,6 +9,7 @@ import { ChangeEvent, FunctionComponent, useState } from 'react';
 import TradeRecords from '../Components/TradeRecords';
 import Modal from '@mui/material/Modal/Modal';
 import { ModalProps, OnClickHandler } from '../interfaces';
+import { Divider } from '@mui/material';
 
 
 const LeftMain = () => (
@@ -46,8 +47,25 @@ const TradeModal: FunctionComponent<ModalProps> = ({ modalStatus, setAction }) =
             aria-describedby="modal-modal-description"
         >
             <div className='flex justify-center items-center h-screen w-screen' onClick={setAction}>
-                <div className="bg-slate-200 h-1/2 w-1/2">
-
+                <div className="bg-slate-200 h-1/2 w-1/3 rounded-md shadow-lg relative">
+                    <span className='w-7 h-7 rounded-full bg-white text-center pt-0.5 absolute top-2 right-2 shadow-md'>
+                        <i className="fa-solid fa-xmark text-slate-500"></i>
+                    </span>
+                    <div className='flex px-5 py-3 mt-3 w-full h-1/4 justify-center items-center'>
+                        <div className='text-slate-600 text-base rounded-full bg-white w-1/4 h-full shadow-md flex flex-col justify-center items-center cursor-pointer group hover:bg-blue-400 border'>
+                            <span className='text-blue-400 group-hover:text-white'>Buy</span>
+                            <span className='text-sm group-hover:text-slate-100'>121.2234</span>
+                        </div>
+                        <Divider className='w-4' />
+                        <div className='border rounded-lg bg-neutral-100 w-1/6 h-1/2 shadow flex justify-center items-center text-slate-700 text-sm'>
+                            0.7
+                        </div>
+                        <Divider className='w-4' />
+                        <div className='text-slate-600 text-base rounded-full bg-white w-1/4 h-full shadow-md flex flex-col justify-center items-center cursor-pointer group hover:bg-red-400 border'>
+                            <span className='text-red-400 group-hover:text-white'>Buy</span>
+                            <span className='text-sm group-hover:text-slate-100'>121.2234</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Modal>
