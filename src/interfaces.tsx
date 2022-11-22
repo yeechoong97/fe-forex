@@ -8,6 +8,13 @@ interface OnClickHandler {
     setAction: MouseEventHandler<HTMLInputElement>
 }
 
+interface TableModalHandler {
+    setTradeAction: MouseEventHandler<HTMLTableRowElement>
+}
+
+interface TradeActionProps extends OnClickHandler, TableModalHandler {
+}
+
 interface TextBoxType extends OnChangeHandler {
     title: string,
     placeholder: string,
@@ -58,4 +65,4 @@ interface ModalProps extends OnClickHandler {
     modalStatus: boolean
 }
 
-export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps, LoadingType, ModalProps, OnClickHandler }
+export type { TextBoxType, ErrorMessageType, AccountCredentials, UserDetails, OnChangeHandler, RegisterDetails, NavBarProps, PriceProps, LoadingType, ModalProps, OnClickHandler, TradeActionProps, TableModalHandler }

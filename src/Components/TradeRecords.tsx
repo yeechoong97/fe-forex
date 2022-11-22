@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
+import { TableModalHandler } from '../interfaces'
 
-const TradeRecords = () => {
+const TradeRecords: FunctionComponent<TableModalHandler> = ({ setTradeAction }) => {
     return (
         <div className='w-5/6 overflow-x-auto rounded-tr-lg'>
             <table className="w-full text-xs text-left text-slate-600 table-auto">
@@ -56,7 +57,7 @@ const TradeRecords = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="bg-white border-b hover:bg-slate-200 hover:cursor-pointer divide-x hover:divide-slate-300 hover:border-slate-300 hover:border-t hover:border-r">
+                    <tr className="bg-white border-b hover:bg-slate-200 hover:cursor-pointer divide-x hover:divide-slate-300 hover:border-slate-300 hover:border-t hover:border-r" onClick={setTradeAction}>
                         <td className="py-3 px-3">
                             11/11/2022
                             <br />
